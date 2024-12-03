@@ -36,6 +36,7 @@
 
         .custom-h-screen {
             min-height: 100vh; 
+            background-color: white;
             /* Background color */
         }
         .bottom-sheet.hidden {
@@ -78,7 +79,12 @@
                 /* Rounded corners for dialog */
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             }
+            .custom-h-screen {
+                height: calc(100vh + 50px); 
+                background-color: white;/* Adjust to handle mobile viewport calculation issues */
+            }
         }
+      
     </style>
 </head>
 
@@ -235,7 +241,13 @@
         submitOtp.addEventListener('click', routeToEmailPage);
         continueButton.addEventListener('click', handleContinue);
         continueButtonMd.addEventListener('click', handleContinue);
-
+        function fixMobileViewportHeight() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        window.addEventListener('resize', fixMobileViewportHeight);
+        fixMobileViewportHeight();
         function handleContinue() {
             const mobileNumber = mobileNumberInput.value;
             if (mobileNumber.length === 10) {
