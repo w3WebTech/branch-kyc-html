@@ -17,6 +17,10 @@
         form>* {
             margin: 10px;
         }
+        .custom-h-screen {
+            height: calc(100vh + 50px);
+            background-color: white; 
+        }
     </style>
 </head>
 
@@ -29,7 +33,7 @@
         </div>
     </div>
 
-    <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full h-screen sm:p-6">
+    <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen sm:p-6">
         <div
             class="md:mx-auto  md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
             <form action="submit.php" onsubmit="return onSubmit(this)" method="post">
