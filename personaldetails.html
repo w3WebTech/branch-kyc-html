@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <title>Form with Steps</title>
+    <style>
+        .checkbox-button  {
+            border-radius: 10px;
+            border: 1px solid #d1d5db;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .checkbox-button.selected {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.visible {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="font-inter bg-indigo-500 overflow-hidden">
+
+    <div class="text-white">
+        <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5">
+            <div class="text-sm font-bold hover:underline cursor-pointer px-5">LOGO</div>
+            <div class="text-sm font-bold hover:underline cursor-pointer">HELP</div>
+        </div>
+    </div>
+
+    <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full h-screen p-6">
+        <div class="md:mx-auto md:mt-10 md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 md:p-6">
+            <div class="space-y-6">
+                <h2 class="text-2xl font-semibold text-gray-900">Enter Your Details</h2>
+                <!-- Marital Status Section -->
+                <div id="marital-status-section" class="section visible">
+                    <label for="details" class="block text-sm font-medium text-gray-700 my-4">Select Your Marital Status</label>
+                   
+                    <div class="flex  flex-wrap">
+                        <div class="checkbox-button text-gray-900 text-sm mr-3 " id="single-button">Single</div>
+                        <div class="checkbox-button text-gray-900  text-sm   mx-3" id="married-button">Married</div>
+                    </div>
+                </div>
+
+                <!-- Gender Section -->
+                <div id="gender-section" class="section">
+                    <label for="details" class="block text-sm font-medium text-gray-700 my-4">Select Your Gender</label>
+                    <div class="flex  flex-wrap"> <!-- Added flex-wrap -->
+                        <div class="checkbox-button text-gray-900  text-sm  mr-3 my-1" id="male-button">Male</div>
+                        <div class="checkbox-button text-gray-900 text-sm  mx-3 my-1" id="female-button">Female</div>
+                        <div class="checkbox-button text-gray-900 text-sm  mx-3 my-1" id="other-button">Other</div>
+                    </div>
+                </div>
+
+                <!-- Income Section -->
+                <div id="income-section" class="section">
+                    <label for="details" class="block text-sm font-medium text-gray-700 my-4">Select Your Income Range</label>
+                    <div class="flex  flex-wrap">
+                        <div class="checkbox-button text-gray-900  text-sm  mr-3 my-1" id="low-income-button">Below $30 K</div>
+                        <div class="checkbox-button text-gray-900  text-sm  mx-3  my-1 " id="middle-income-button">$30K - $70K</div>
+                        <div class="checkbox-button text-gray-900 text-sm  md:mx-3 sm:mr-3  my-1" id="high-income-button">Above $70K</div>
+                    </div>
+                </div>
+
+                <!-- Trading Experience Section -->
+                <div id="trading-experience-section" class="section">
+                    <label for="details" class="block text-sm font-medium text-gray-700 my-4">Select Your Trading Experience</label>
+                    <div class="flex  flex-wrap">
+                        <div class="checkbox-button text-gray-900 text-sm   mr-3 my-1" id="beginner-button">Beginner</div>
+                        <div class="checkbox-button text-gray-900 text-sm   mx-3 my-1" id="intermediate-button">Intermediate</div>
+                        <div class="checkbox-button text-gray-900 text-sm  md:mx-3 sm:mr-3  my-1" id="expert-button">Expert</div>
+                    </div>
+                </div>
+
+                <!-- Occupation Section -->
+                <div id="occupation-section" class="section">
+                    <label for="details" class="block text-sm font-medium text-gray-700 my-4">Select Your Occupation</label>
+                    <div class="flex  flex-wrap">
+                        <div class="checkbox-button text-gray-900 text-sm   mr-3 my-1" id="employed-button">Employed</div>
+                        <div class="checkbox-button text-gray-900 text-sm   mx-3 my-1" id="self-employed-button">Self-Employed</div>
+                        <div class="checkbox-button text-gray-900 text-sm  md:mx-3 sm:mr-3 my-1" id="unemployed-button">Unemployed</div>
+                        <div class="checkbox-button text-gray-900 text-sm   mx-3 my-1" id="other-occupation-button">Other</div>
+                    </div>
+                </div>
+
+                <!-- Continue Button -->
+                <div class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
+                    <button id="continue-button" type="button"
+                        class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        Next
+                    </button>
+                </div>
+                <div class="flex justify-center md:block hidden">
+                    <button id="continue-button1" type="button"
+                        class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        Next
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sections to be displayed
+        const sections = [
+            document.getElementById('marital-status-section'),
+            document.getElementById('gender-section'),
+            document.getElementById('income-section'),
+            document.getElementById('trading-experience-section'),
+            document.getElementById('occupation-section')
+        ];
+    
+        const continueButton = document.getElementById('continue-button');
+        const continueButton1 = document.getElementById('continue-button1');
+        let currentStep = 0;
+    
+        // Show the first section initially
+        sections[currentStep].classList.add('visible');
+    
+        // Button selection logic (style changes)
+        function selectButton(button) {
+            const buttons = document.querySelectorAll('.checkbox-button text-sm ');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+        }
+    
+        // Continue Button functionality
+        function goToNextStep() {
+            // Hide current section
+            if(currentStep == 4){
+                window.location.href = 'signature.html';
+            }
+            else{
+                sections[currentStep].classList.remove('visible');
+      
+                currentStep++;
+
+                // Show the next section
+                if (currentStep < sections.length) {
+                    sections[currentStep].classList.add('visible');
+                } else {
+                    // All sections completed, redirect to a new page
+                    window.location.href = 'signature.html'; // Replace with your target page
+                }
+            }
+        }
+    
+        continueButton.addEventListener('click', goToNextStep);
+        continueButton1.addEventListener('click', goToNextStep);
+    
+        // Event listeners for marital status buttons
+        const maritalButtons = [document.getElementById('single-button'), document.getElementById('married-button')];
+        maritalButtons.forEach(button => {
+            button.addEventListener('click', () => selectButton(button));
+        });
+    
+        // Event listeners for gender buttons
+        const genderButtons = [document.getElementById ('male-button'), document.getElementById('female-button'), document.getElementById('other-button')];
+        genderButtons.forEach(button => {
+            button.addEventListener('click', () => selectButton(button));
+        });
+    
+        // Event listeners for income buttons
+        const incomeButtons = [document.getElementById('low-income-button'), document.getElementById('middle-income-button'), document.getElementById('high-income-button')];
+        incomeButtons.forEach(button => {
+            button.addEventListener('click', () => selectButton(button));
+        });
+    
+        // Event listeners for trading experience buttons
+        const tradingExperienceButtons = [
+            document.getElementById('beginner-button'),
+            document.getElementById('intermediate-button'),
+            document.getElementById('expert-button')
+        ];
+        tradingExperienceButtons.forEach(button => {
+            button.addEventListener('click', () => selectButton(button));
+        });
+    
+        // Event listeners for occupation buttons
+        const occupationButtons = [
+            document.getElementById('employed-button'),
+            document.getElementById('self-employed-button'),
+            document.getElementById('unemployed-button'),
+            document.getElementById('other-occupation-button')
+        ];
+        occupationButtons.forEach(button => {
+            button.addEventListener('click', () => selectButton(button));
+        });
+    </script>
+</body>
+
+</html>
