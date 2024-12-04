@@ -37,78 +37,34 @@
             display: inline;
         }
 
-        .bottom-sheet {
-            position: fixed;
-            bottom: -100%;
-            left: 0;
-            right: 0;
-            background-color: white;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-            transition: bottom 0.3s ease;
-            padding: 20px;
-            z-index: 1000;
-            /* Set a lower z-index than the overlay */
-        }
-
-        .bottom-sheet.open {
-            bottom: 0;
-            z-index: 1000;
-            /* Ensure it has the same z-index when open */
-        }
-
-        /* Overlay Styles */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 1001;
-            /* Set a higher z-index than the bottom sheet */
-        }
-
-        .overlay.open {
-            display: block;
-        }
-
-        /* Bottom Sheet Styles */
-        /* .bottom-sheet {
-            position: fixed;
-            bottom: -100%;
-            left: 0;
-            right: 0;
-            background-color: white;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-            transition: bottom 0.3s ease;
-            padding: 20px;
-        }
-
-        .bottom-sheet.open {
-            bottom: 0;
-        } */
-
         /* Dialog Styles */
         .dialog {
             display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            left: 0;
+            right: 0;
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             z-index: 1000;
+            transition: bottom 0.3s ease;
         }
 
         .dialog.open {
             display: block;
+        }
+
+        .dialog.mobile {
+            bottom: 0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .dialog.desktop {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .overlay {
@@ -125,6 +81,22 @@
         .overlay.open {
             display: block;
         }
+
+        #preview-container {
+            margin-top: 20px;
+        }
+
+        #captured-image {
+            display: none;
+            width: 200px;
+            height: auto;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+        }
+
+        .button-container {
+            /* margin-top: 10px; */
+        }
     </style>
 </head>
 
@@ -137,7 +109,7 @@
             </div>
         </div>
 
-        <div class="mx-auto mt-5 bg-white rounded-t-xl  overflow-hidden w-full custom-h-screen sm:p-6">
+        <div class="mx-auto mt-5 bg-white rounded-t-xl overflow-hidden w-full custom-h-screen sm:p-6">
             <div class="md:mx-auto md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
                 <div class="space-y-6">
                     <h2 class="text-2xl font-semibold text-gray-900">Segments</h2>
@@ -151,14 +123,14 @@
                                 class="checkmark">✔</span></div>
                         <div class="checkbox-button text-gray-900 text-sm my-1" id="bseco-button">BSE COMMODITY <span
                                 class="checkmark">✔</span></div>
-                        <div class="checkbox-button text-gray-900 text-sm my-1" id="mcx-button">MCX <span
+                        <div class="checkbox-button text-gray-900 text-sm my -1" id="mcx-button">MCX <span
                                 class="checkmark">✔</span></div>
                     </div>
 
                     <div
                         class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
                         <button id="continue-button" type="button"
-                            class=" mt-12 w-full justify center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             Submit
                         </button>
                     </div>
@@ -175,25 +147,89 @@
 
     <div class="overlay" id="overlay"></div>
     <div class="dialog" id="dialog">
-        <h3 class="text-lg font-semibold">Commodity Selected</h3>
-        <p>You have selected a commodity segment.</p>
-        <button id="close-dialog" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded">Close</button>
-    </div>
+        <div>
+            <h2 class="text-lg font-semibold text-gray-900">Upload Income Proof</h2>
 
-    <div class="bottom-sheet" id="bottom-sheet">
-        <h3 class="text-lg font-semibold">Commodity Selected</h3>
-        <p>You have selected a commodity segment.</p>
-        <button id="close-bottom-sheet" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded">Close</button>
+            <!-- Button to capture image -->
+            <div class="flex justify-center my-10">
+                <div id="capture-button">
+                    <div  class="bg-indigo-100 mx-5 p-3 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#6366f1" class="h-6 w-6">
+                            <path
+                                d="M9.97.97a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 0 1-1.06-1.06l3-3ZM9.75 6.75v6a.75.75 0 0 0 1.5 0v-6h3a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h3Z" />
+                            <path
+                                d="M7.151 21.75a2.999 2.999 0 0 0 2.599 1.5h7.5a3 3 0 0 0 3-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 0 1-4.5 4.5H7.151Z" />
+                        </svg>
+
+                    </div>
+                    <span class="mx-5 text-sm font-bold">Upload</span>
+                    <input type="file" id="image-input" accept="image/*" capture="camera" style="display: none;">
+                </div>
+                <div  id="upload-button">
+                    <div class="bg-indigo-100 mx-5 p-3 rounded"><svg
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#6366f1" class="h-6 w-6 ">
+                            <path d="M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z" />
+                            <path fill-rule="evenodd"
+                                d="M9.344 3.071a49.52 49.52 0 0 1 5.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 0 1-3 3h-15a3 3 0 0 1-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 0 0 1.11-.71l.822-1.315a2.942 2.942 0 0 1 2.332-1.39ZM6.75 12.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Zm12-1.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+
+                    </div>
+                    <span class="mx-5 text-sm font-bold">Capture</span>
+                    <input type="file" id="document-input" accept=".pdf,.doc,.docx" style="display: none;">
+                </div>
+            </div>
+
+
+            <!-- Button to upload document -->
+
+
+
+            <div id="preview-container">
+                <img id="captured-image" src="" class="h-20 w-20" alt="Captured Image" />
+                <div id="image-controls" class="button-container" style="display: none;">
+                    
+                    <div class="flex items-center my-2"> <!-- Added flex to this div for proper alignment -->
+                        <div id="delete-image" class="bg-red-500 rounded-md p-2 mx-2 w-10 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="h-4 w-4">
+                                <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div id="retake-image" class="bg-green-500 rounded-md p-2 mx-2 w-10 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="h-4 w-4">
+                                <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div id="document-controls" class="button-container flex justify-center" style="display: none;">
+                    <div id="file-name" class="text-sm font-bold"></div>
+                    <div class="flex items-center my-2"> <!-- Added flex to this div for proper alignment -->
+                        <div id="delete-document" class="bg-red-500 rounded-md p-2 mx-2 w-10 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="h-4 w-4">
+                                <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div id="reupload-document" class="bg-green-500 rounded-md p-2 mx-2 w-10 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="h-4 w-4">
+                                <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="close-dialog"
+                class=" mt-2 text-center w-full justify-center inline-flex items-center  gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">submit</button>
+        </div>
     </div>
 
     <script>
         const segmentButtons = document.querySelectorAll('.checkbox-button');
         const proceedButton = document.getElementById('continue-button');
         const dialog = document.getElementById('dialog');
-        const bottomSheet = document.getElementById('bottom-sheet');
         const overlay = document.getElementById('overlay');
         const closeDialog = document.getElementById('close-dialog');
-        const closeBottomSheet = document.getElementById('close-bottom-sheet');
 
         segmentButtons.forEach(button => {
             button.addEventListener('click', function () {
@@ -203,12 +239,14 @@
                 this.classList.add('selected');
 
                 if (this.id === 'nseco-button' || this.id === 'bseco-button') {
+                    dialog.classList.add('open');
+                    overlay.classList.add('open');
                     if (isMobile()) {
-                        bottomSheet.classList.add('open');
-                        overlay.classList.add('open');
+                        dialog.classList.add('mobile');
+                        dialog.classList.remove('desktop');
                     } else {
-                        dialog.classList.add('open');
-                        overlay.classList.add('open');
+                        dialog.classList.add('desktop');
+                        dialog.classList.remove('mobile');
                     }
                 }
             });
@@ -219,7 +257,15 @@
                 .filter(button => button.classList.contains('selected'))
                 .map(button => button.textContent.trim());
             if (selectedSegments.length > 0) {
-                alert(`You selected: ${selectedSegments.join(', ')}`);
+                dialog.classList.add('open');
+                overlay.classList.add('open');
+                if (isMobile()) {
+                    dialog.classList.add('mobile');
+                    dialog.classList.remove('desktop');
+                } else {
+                    dialog.classList.add('desktop');
+                    dialog.classList.remove('mobile');
+                }
             } else {
                 alert('Please select at least one segment before proceeding.');
             }
@@ -230,19 +276,146 @@
             overlay.classList.remove('open');
         });
 
-        closeBottomSheet.addEventListener('click', function () {
-            bottomSheet.classList.remove('open');
+        overlay.addEventListener('click', function () {
+            dialog.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        const captureButton = document.getElementById('capture-button');
+        const imageInput = document.getElementById('image-input');
+        const uploadButton = document.getElementById('upload-button');
+        const documentInput = document.getElementById('document-input');
+        const capturedImage = document.getElementById('captured-image');
+        const imageControls = document.getElementById('image-controls');
+        const documentControls = document.getElementById('document-controls');
+        const fileNameDisplay = document.getElementById('file-name');
+
+        // Function to show capture and upload buttons
+        function showButtons() {
+            captureButton.style.display = 'inline-block';
+            uploadButton.style.display = 'inline-block';
+        }
+
+        // Function to hide capture and upload buttons
+        function hideButtons() {
+            captureButton.style.display = 'none';
+            uploadButton.style.display = 'none';
+        }
+
+        // Capture image functionality
+        captureButton.addEventListener('click', () => {
+            imageInput.click(); // Trigger the file input
+        });
+
+        imageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    capturedImage.src = e.target.result; // Set the image source to the captured image
+                    capturedImage.style.display = 'block'; // Show the captured image
+                    imageControls.style.display = 'block'; // Show image controls
+                    documentControls.style.display = 'none'; // Hide document controls
+                    hideButtons(); // Hide capture and upload buttons
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Upload document functionality
+        uploadButton.addEventListener('click', () => {
+            documentInput.click(); // Trigger the file input for document upload
+        });
+
+        documentInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                fileNameDisplay.textContent = ` ${file.name}`; // Show the file name
+                documentControls.style.display = 'block'; // Show document controls
+                imageControls.style.display = 'none'; // Hide image controls
+                hideButtons(); // Hide capture and upload buttons
+            }
+        });
+
+        // Function to add event listeners for image controls
+        function addImageControlListeners() {
+            document.getElementById('delete-image').addEventListener('click', () => {
+                capturedImage.src = ''; // Clear the image source
+                capturedImage.style.display = 'none'; // Hide the image
+                imageControls.style.display = 'none'; // Hide image controls
+                imageInput.value = ''; // Clear the input
+                showButtons(); // Show capture and upload buttons
+            });
+
+            document.getElementById('retake-image').addEventListener('click', () => {
+                capturedImage.src = ''; // Clear the image source
+                capturedImage.style.display = 'none'; // Hide the image
+                imageInput.value = ''; // Clear the input
+                imageInput.click(); // Trigger the file input again
+            });
+        }
+
+        // Function to add event listeners for document controls
+        function addDocumentControlListeners() {
+            document.getElementById('delete-document').addEventListener('click', () => {
+                fileNameDisplay.textContent = ''; // Clear the file name
+                documentControls.style.display = 'none'; // Hide document controls
+                documentInput.value = ''; // Clear the input
+                showButtons(); // Show capture and upload buttons
+            });
+
+            document.getElementById('reupload-document').addEventListener('click', () => {
+                documentInput.value = ''; // Clear the input
+                documentInput.click(); // Trigger the file input again
+            });
+        }
+
+        // Show buttons and add listeners when the dialog opens
+        function openDialog() {
+            dialog.classList.add('open');
+            overlay.classList.add('open');
+            addImageControlListeners();
+            addDocumentControlListeners();
+        }
+
+        // Modify the event listeners to call openDialog
+        segmentButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                segmentButtons.forEach(button => {
+                    button.classList.remove('selected');
+                });
+                this.classList.add('selected');
+
+                if (this.id === 'nseco-button' || this.id === 'bseco-button') {
+                    openDialog();
+                }
+            });
+        });
+
+        proceedButton.addEventListener('click', function () {
+            const selectedSegments = Array.from(segmentButtons)
+                .filter(button => button.classList.contains('selected'))
+                .map(button => button.textContent.trim());
+            if (selectedSegments.length > 0) {
+                openDialog();
+            } else {
+                alert('Please select at least one segment before proceeding.');
+            }
+        });
+
+        closeDialog.addEventListener('click', function () {
+            dialog.classList.remove('open');
             overlay.classList.remove('open');
         });
 
         overlay.addEventListener('click', function () {
             dialog.classList.remove('open');
-            bottomSheet.classList.remove('open');
             overlay.classList.remove('open');
         });
-        function isMobile() {
-            return window.innerWidth <= 768;
-        }
     </script>
 </body>
 
