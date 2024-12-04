@@ -80,135 +80,171 @@
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             }
         }
+        .dropdown-menu {
+            display: none;
+            /* Hide the menu by default */
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            /* Show the menu when the class 'show' is added */
+        }
     </style>
 </head>
 
 <body class="font-inter  overflow-hidden">
-<div class="bg-indigo-500">
-    <!-- Header section -->
-    <div class="text-white">
-        <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5 text-white">
-            <div class="text-sm font-bold hover:underline cursor-pointer px-5 ">LOGO</div>
-            <div class="text-sm font-bold hover:underline cursor-pointer">HELP</div>
-        </div>
-    </div>
-
-    <!-- Main content section -->
-    <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen p-6">
-        <div class="md:mx-auto md:mt-10 md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 md:p-6">
-            <div class="space-y-6">
-                <h2 class="text-2xl font-semibold text-gray-900">Enter Your Email Address</h2>
-
-                <!-- Email input -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                    <div class="my-2 mx-1">
-                        <input type="email" name="email" id="email"
-                            class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                            placeholder="example@example.com">
+    <div class="bg-indigo-500">
+        <!-- Header section -->
+        <div class="text-white">
+            <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5 text-white">
+                <div class="text-sm font-bold hover:underline cursor-pointer px-5 ">LOGO</div>
+                <div class="relative ml-3">
+                    <div>
+                        <button type="button"
+                            class="relative flex max-w-xs font-bold items-center rounded-full  text-sm   "
+                            id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span class="absolute -inset-1.5"></span>
+                            <!-- <span class="sr-only">Open user menu</span> -->
+                            HELP
+                        </button>
                     </div>
-                </div>
 
-                <!-- Submit Button -->
-                <div class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full px-6 py-4 md:hidden block md:w-auto md:px-0 md:py-0">
-                    <button id="continue-button" type="button"
-                        class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        Continue
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-                            <path fill-rule="evenodd"
-                                d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex justify-center md:block hidden">
-                    <button id="continue-button-md" type="button"
-                        class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        Continue
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-                            <path fill-rule="evenodd"
-                                d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
+                    <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none dropdown-menu"
+                        role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-0">Your Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-1">Settings</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-2">Sign out</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Overlay for Bottom Sheet -->
-    <div id="overlay" class="overlay"></div>
+        <!-- Main content section -->
+        <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen p-6">
+            <div
+                class="md:mx-auto md:mt-10 md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 md:p-6">
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-gray-900">Enter Your Email Address</h2>
 
-    <!-- Bottom Sheet for OTP (small devices) -->
-    <div id="otp-bottom-sheet" class="bottom-sheet hidden p-6 py-10">
-        <h2 class="text-lg font-semibold text-gray-900">Enter OTP</h2>
-        <div class="mt-2 flex space-x-2">
-            <input type="tel"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="tel"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="tel"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="tel"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="tel"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="tel" class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none" maxlength="1" placeholder="0">
+                    <!-- Email input -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <div class="my-2 mx-1">
+                            <input type="email" name="email" id="email"
+                                class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                placeholder="example@example.com">
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div
+                        class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full px-6 py-4 md:hidden block md:w-auto md:px-0 md:py-0">
+                        <button id="continue-button" type="button"
+                            class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Continue
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="h-6 w-6">
+                                <path fill-rule="evenodd"
+                                    d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex justify-center md:block hidden">
+                        <button id="continue-button-md" type="button"
+                            class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Continue
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="h-6 w-6">
+                                <path fill-rule="evenodd"
+                                    d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mt-4 flex justify-between items-center">
-            <div id="timer" class="text-sm text-gray-600">00:30</div>
-            <button id="resend-button" type="button class="text-sm text-indigo-600 hover:underline" disabled>Resend</button>
+
+        <!-- Overlay for Bottom Sheet -->
+        <div id="overlay" class="overlay"></div>
+
+        <!-- Bottom Sheet for OTP (small devices) -->
+        <div id="otp-bottom-sheet" class="bottom-sheet hidden p-6 py-10">
+            <h2 class="text-lg font-semibold text-gray-900">Enter OTP</h2>
+            <div class="mt-2 flex space-x-2">
+                <input type="tel"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                <input type="tel"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                <input type="tel"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                <input type="tel"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                <input type="tel"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                <input type="tel"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+            </div>
+            <div class="mt-4 flex justify-between items-center">
+                <div id="timer" class="text-sm text-gray-600">00:30</div>
+                <button id="resend-button" type="button class=" text-sm text-indigo-600 hover:underline"
+                    disabled>Resend</button>
+            </div>
+            <div class="mt-4">
+                <button id="submit-otp" type="button"
+                    class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Submit
+                </button>
+            </div>
         </div>
-        <div class="mt-4">
-            <button id="submit-otp" type="button"
-                class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Submit
-            </button>
+
+        <!-- Dialog for OTP (medium and large devices) -->
+        <div id="otp-dialog"
+            class="p-6 bottom-sheet1 hidden md:fixed md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:bg-white md:shadow-lg md:rounded-lg md:w-3/4 md:max-w-md">
+            <h2 class="text-lg font-semibold text-gray-900">Enter OTP</h2>
+            <div class="mt-2 flex space-x-2">
+                <input type="text"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0">
+                <input type="text"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0">
+                <input type="text"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0">
+                <input type="text"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0">
+                <input type="text"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0">
+                <input type="text"
+                    class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                    maxlength="1" placeholder="0">
+            </div>
+            <div class="mt-4 flex justify-between items-center">
+                <div id="timer" class="text-sm text-gray-600">00:30</div>
+                <button id="resend-button" type="button" class="text-sm text-indigo-600 hover:underline"
+                    disabled>Resend</button>
+            </div>
+            <div class="mt-4">
+                <button id="submit-otp-dialog" type="button"
+                    class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Submit
+                </button>
+            </div>
         </div>
     </div>
-
-    <!-- Dialog for OTP (medium and large devices) -->
-    <div id="otp-dialog"
-        class="p-6 bottom-sheet1 hidden md:fixed md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:bg-white md:shadow-lg md:rounded-lg md:w-3/4 md:max-w-md">
-        <h2 class="text-lg font-semibold text-gray-900">Enter OTP</h2>
-        <div class="mt-2 flex space-x-2">
-            <input type="text"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="text"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="text"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="text"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="text"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-            <input type="text"
-                class="otp-input w-1/6 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                maxlength="1" placeholder="0">
-        </div>
-        <div class="mt-4 flex justify-between items-center">
-            <div id="timer" class="text-sm text-gray-600">00:30</div>
-            <button id="resend-button" type="button" class="text-sm text-indigo-600 hover:underline"
-                disabled>Resend</button>
-        </div>
-        <div class="mt-4">
-            <button id="submit-otp-dialog" type="button"
-                class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Submit
-            </button>
-        </div>
-    </div>
-</div>
     <script>
         // JavaScript to handle the bottom sheet and dialog visibility
         const continueButton = document.getElementById('continue-button');
@@ -225,48 +261,48 @@
         let timer;
 
         submitOtpDialog.addEventListener('click', routeToNextPage);
-        submitOtp .addEventListener('click', routeToNextPage);
+        submitOtp.addEventListener('click', routeToNextPage);
         continueButton.addEventListener('click', handleContinue);
         continueButtonMd.addEventListener('click', handleContinue);
 
         function handleContinue() {
-        const email = emailInput.value;
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email validation
-        if (emailPattern.test(email)) {
-            // Show overlay
-            overlay.classList.add('visible');
-              
-              if (window.innerWidth < 768) {
-                  otpBottomSheet.classList.remove('hidden');
-                  otpBottomSheet.classList.add('visible');
-              } else {
-                  otpDialog.classList.remove('hidden');
-                  otpDialog.classList.add('visible');
-              } otpDialog.classList.add('visible');
-            
-            startTimer(30); // Start timer for 30 seconds
-        } else {
-            alert('Please enter a valid email address.');
+            const email = emailInput.value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email validation
+            if (emailPattern.test(email)) {
+                // Show overlay
+                overlay.classList.add('visible');
+
+                if (window.innerWidth < 768) {
+                    otpBottomSheet.classList.remove('hidden');
+                    otpBottomSheet.classList.add('visible');
+                } else {
+                    otpDialog.classList.remove('hidden');
+                    otpDialog.classList.add('visible');
+                } otpDialog.classList.add('visible');
+
+                startTimer(30); // Start timer for 30 seconds
+            } else {
+                alert('Please enter a valid email address.');
+            }
         }
-    }
 
-    overlay.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
 
-    function closeModal() {
-        otpBottomSheet.classList.remove('visible');
-        otpBottomSheet.classList.add('hidden');
-        otpDialog.classList.remove('visible');
-        otpDialog.classList.add('hidden');
-        overlay.classList.remove('visible'); // Hide overlay
-        clearInterval(timer);
-        resetTimer();
-    }
+        function closeModal() {
+            otpBottomSheet.classList.remove('visible');
+            otpBottomSheet.classList.add('hidden');
+            otpDialog.classList.remove('visible');
+            otpDialog.classList.add('hidden');
+            overlay.classList.remove('visible'); // Hide overlay
+            clearInterval(timer);
+            resetTimer();
+        }
 
         function routeToNextPage() {
             window.location.href = 'personaldetails.html'; // Use relative path
         }
 
-      
+
 
         function startTimer(duration) {
             let time = duration;
@@ -298,6 +334,7 @@
         const otpInputs = document.querySelectorAll('.otp-input');
         otpInputs.forEach((input, index) => {
             input.addEventListener('input', () => {
+                input.value = input.value.replace(/[^0-9]/g, '');
                 if (input.value.length === 1 && index < otpInputs.length - 1) {
                     otpInputs[index + 1].focus();
                 }
@@ -315,6 +352,21 @@
             continueButton.disabled = !emailPattern.test(email); // Enable continue button if valid email
             continueButtonMd.disabled = !emailPattern.test(email); // Enable continue button if valid email
         });
+        const button = document.getElementById('user-menu-button');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        button.addEventListener('click', () => {
+            // Toggle the 'show' class on the dropdown menu
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Optional: Close the dropdown if clicking outside of it
+        window.addEventListener('click', (event) => {
+            if (!button.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
     </script>
 
 </body>

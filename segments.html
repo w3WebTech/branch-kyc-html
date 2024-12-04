@@ -97,6 +97,15 @@
         .button-container {
             /* margin-top: 10px; */
         }
+        .dropdown-menu {
+            display: none;
+            /* Hide the menu by default */
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            /* Show the menu when the class 'show' is added */
+        }
     </style>
 </head>
 
@@ -105,7 +114,27 @@
         <div class="text-white">
             <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5">
                 <div class="text-sm font-bold hover:underline cursor-pointer px-5">LOGO</div>
-                <div class="text-sm font-bold hover:underline cursor-pointer">HELP</div>
+                <div class="relative ml-3">
+                    <div>
+                        <button type="button"
+                            class="relative flex max-w-xs font-bold items-center rounded-full  text-sm   "
+                            id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span class="absolute -inset-1.5"></span>
+                            <!-- <span class="sr-only">Open user menu</span> -->
+                            HELP
+                        </button>
+                    </div>
+
+                    <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none dropdown-menu"
+                        role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-0">Your Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-1">Settings</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-2">Sign out</a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -154,26 +183,26 @@
             <div class="flex justify-center my-10">
                 <div id="capture-button">
                     <div  class="bg-indigo-100 mx-5 p-3 rounded">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#6366f1" class="h-6 w-6">
-                            <path
-                                d="M9.97.97a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 0 1-1.06-1.06l3-3ZM9.75 6.75v6a.75.75 0 0 0 1.5 0v-6h3a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h3Z" />
-                            <path
-                                d="M7.151 21.75a2.999 2.999 0 0 0 2.599 1.5h7.5a3 3 0 0 0 3-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 0 1-4.5 4.5H7.151Z" />
-                        </svg>
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#6366f1" class="h-6 w-6 ">
+                        <path d="M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z" />
+                        <path fill-rule="evenodd"
+                            d="M9.344 3.071a49.52 49.52 0 0 1 5.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 0 1-3 3h-15a3 3 0 0 1-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 0 0 1.11-.71l.822-1.315a2.942 2.942 0 0 1 2.332-1.39ZM6.75 12.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Zm12-1.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                            clip-rule="evenodd" />
+                    </svg>
 
                     </div>
                     <span class="mx-5 text-sm font-bold">Upload</span>
                     <input type="file" id="image-input" accept="image/*" capture="camera" style="display: none;">
                 </div>
                 <div  id="upload-button">
-                    <div class="bg-indigo-100 mx-5 p-3 rounded"><svg
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#6366f1" class="h-6 w-6 ">
-                            <path d="M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z" />
-                            <path fill-rule="evenodd"
-                                d="M9.344 3.071a49.52 49.52 0 0 1 5.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 0 1-3 3h-15a3 3 0 0 1-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 0 0 1.11-.71l.822-1.315a2.942 2.942 0 0 1 2.332-1.39ZM6.75 12.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Zm12-1.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-                                clip-rule="evenodd" />
+                    <div class="bg-indigo-100 mx-5 p-3 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#6366f1" class="h-6 w-6">
+                            <path
+                                d="M9.97.97a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 0 1-1.06-1.06l3-3ZM9.75 6.75v6a.75.75 0 0 0 1.5 0v-6h3a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h3Z" />
+                            <path
+                                d="M7.151 21.75a2.999 2.999 0 0 0 2.599 1.5h7.5a3 3 0 0 0 3-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 0 1-4.5 4.5H7.151Z" />
                         </svg>
-
 
                     </div>
                     <span class="mx-5 text-sm font-bold">Capture</span>
@@ -187,7 +216,7 @@
 
 
             <div id="preview-container">
-                <img id="captured-image" src="" class="h-20 w-20" alt="Captured Image" />
+                <img id="captured-image" src="" class="h-20 w-20" height="50px" width="50px" alt="Captured Image" />
                 <div id="image-controls" class="button-container" style="display: none;">
                     
                     <div class="flex items-center my-2"> <!-- Added flex to this div for proper alignment -->
@@ -226,7 +255,7 @@
 
     <script>
         const segmentButtons = document.querySelectorAll('.checkbox-button');
-        const proceedButton = document.getElementById('continue-button');
+        //const proceedButton = document.getElementById('continue-button');
         const dialog = document.getElementById('dialog');
         const overlay = document.getElementById('overlay');
         const closeDialog = document.getElementById('close-dialog');
@@ -251,27 +280,44 @@
                 }
             });
         });
+        function routeToNextPage() {
+            window.location.href = 'bankDetails.html'; // Use relative path
+        }
+       
+        // proceedButton.addEventListener('click', function () {
+        //     const selectedSegments = Array.from(segmentButtons)
+        //         .filter(button => button.classList.contains('selected'))
+        //         .map(button => button.textContent.trim());
+        //     if (selectedSegments.length > 0) {
+        //         dialog.classList.add('open');
+        //         overlay.classList.add('open');
+        //         if (isMobile()) {
+        //             dialog.classList.add('mobile');
+        //             dialog.classList.remove('desktop');
+        //         } else {
+        //             dialog.classList.add('desktop');
+        //             dialog.classList.remove('mobile');
+        //         }
+        //     } else {
+        //         alert('Please select at least one segment before proceeding.');
+        //     }
+        // });
+        const button = document.getElementById('user-menu-button');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
 
-        proceedButton.addEventListener('click', function () {
-            const selectedSegments = Array.from(segmentButtons)
-                .filter(button => button.classList.contains('selected'))
-                .map(button => button.textContent.trim());
-            if (selectedSegments.length > 0) {
-                dialog.classList.add('open');
-                overlay.classList.add('open');
-                if (isMobile()) {
-                    dialog.classList.add('mobile');
-                    dialog.classList.remove('desktop');
-                } else {
-                    dialog.classList.add('desktop');
-                    dialog.classList.remove('mobile');
-                }
-            } else {
-                alert('Please select at least one segment before proceeding.');
-            }
+        button.addEventListener('click', () => {
+            // Toggle the 'show' class on the dropdown menu
+            dropdownMenu.classList.toggle('show');
         });
 
+        // Optional: Close the dropdown if clicking outside of it
+        window.addEventListener('click', (event) => {
+            if (!button.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
         closeDialog.addEventListener('click', function () {
+            routeToNextPage()
             dialog.classList.remove('open');
             overlay.classList.remove('open');
         });
@@ -290,10 +336,13 @@
         const uploadButton = document.getElementById('upload-button');
         const documentInput = document.getElementById('document-input');
         const capturedImage = document.getElementById('captured-image');
+        const continuebutton = document.getElementById('continue-button');
+        const continuebutton1 = document.getElementById('continue-button1');
         const imageControls = document.getElementById('image-controls');
         const documentControls = document.getElementById('document-controls');
         const fileNameDisplay = document.getElementById('file-name');
-
+        continuebutton.addEventListener('click', routeToNextPage);
+        continuebutton1.addEventListener('click', routeToNextPage);
         // Function to show capture and upload buttons
         function showButtons() {
             captureButton.style.display = 'inline-block';
@@ -396,16 +445,16 @@
             });
         });
 
-        proceedButton.addEventListener('click', function () {
-            const selectedSegments = Array.from(segmentButtons)
-                .filter(button => button.classList.contains('selected'))
-                .map(button => button.textContent.trim());
-            if (selectedSegments.length > 0) {
-                openDialog();
-            } else {
-                alert('Please select at least one segment before proceeding.');
-            }
-        });
+        // proceedButton.addEventListener('click', function () {
+        //     const selectedSegments = Array.from(segmentButtons)
+        //         .filter(button => button.classList.contains('selected'))
+        //         .map(button => button.textContent.trim());
+        //     if (selectedSegments.length > 0) {
+        //         openDialog();
+        //     } else {
+        //         alert('Please select at least one segment before proceeding.');
+        //     }
+        // });
 
         closeDialog.addEventListener('click', function () {
             dialog.classList.remove('open');

@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"
+        rel="stylesheet">
     <title>Form with Steps</title>
     <style>
         canvas#signature {
@@ -34,7 +35,7 @@
 </head>
 
 <body class="font-inter overflow-hidden">
-    <div class="bg-indigo-500 ">
+    <div class=" bg-indigo-500 ">
         <div class="text-white">
             <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5">
                 <div class="text-sm font-bold hover:underline cursor-pointer px-5">LOGO</div>
@@ -63,66 +64,57 @@
         </div>
 
         <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen sm:p-6">
-            <div class="md:mx-auto md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
+            <div class="md:mx-auto  md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
                 <div class="space-y-6">
-                    <h2 class="text-2xl font-semibold text-gray-900">ESign</h2>
+                    <h2 class="text-2xl font-semibold text-gray-900">Enter Your Parent's Details</h2>
 
-                    <!-- Image display -->
-                    <div class="">
-                        <img src="images/esign.jpg" alt="Placeholder Image" style="height: 200px; width: auto;" class="rounded shadow-md w-full">
+
+                    <div>
+                        <label for="fname" class="block text-sm font-medium text-gray-700">Father's Name</label>
+                        <div class="my-2 mx-1">
+                            <input type="fname" name="fname" id="fname"
+                                class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                placeholder="John">
+                        </div>
                     </div>
 
-                    <div class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
+                    <div>
+                        <label for="mname" class="block text-sm font-medium text-gray-700">Mother's Name</label>
+                        <div class="my-2 mx-1">
+                            <input type="mname" name="mname" id="mname"
+                                class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                placeholder="Jenny">
+                        </div>
+                    </div>
+                    <div
+                        class=" md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
                         <button id="continue-button" type="button"
                             class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                            Proceed
+                            Submit
                         </button>
                     </div>
-                    <div class="flex justify-center md:block hidden">
+                    <div class=" flex justify-center md:block hidden">
                         <button id="continue-button1" type="button"
                             class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                            Proceed
+                            Submit
                         </button>
                     </div>
                 </div>
+
+
             </div>
         </div>
+
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('continue-button').addEventListener('click', function() {
-                const callbackUrl = 'https://ekyc-manual-branch.vercel.app/Esign'; // Your callback URL
-                const apiUrl = `https://phpstack-529375-5021731.cloudwaysapps.com/api/create-esign.php?callbackUrl=${encodeURIComponent(callbackUrl)}`;
-
-                // Make the API call
-                fetch(apiUrl)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('API Response:', data);
-                        // Check if the response contains a signUrl
-                        if (data.data && data.data.invitations && data.data.invitations[0].signUrl) {
-                            // Redirect to the signUrl
-                            window.location.href = data.data.invitations[0].signUrl;
-                        } else {
-                            alert('No sign URL returned. Please check the API response.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('There was a problem with the fetch operation:', error);
-                        alert('Error occurred while processing the request. Please try again.');
-                    });
-            });
-
-            document.getElementById('continue-button1').addEventListener('click', function() {
-                document.getElementById('continue-button').click(); // Trigger the same action as the first button
-            });
-        });
+        const continuebutton = document.getElementById('continue-button');
+        const continuebutton1 = document.getElementById('continue-button1');
+        continuebutton.addEventListener('click', routeToNextPage);
+        continuebutton1.addEventListener('click', routeToNextPage);
+        function routeToNextPage() {
+            window.location.href = 'segments.html'; // Use relative path
+        }
         const button = document.getElementById('user-menu-button');
         const dropdownMenu = document.querySelector('.dropdown-menu');
 
@@ -138,5 +130,7 @@
             }
         });
     </script>
+
 </body>
+
 </html>
