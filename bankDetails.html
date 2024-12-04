@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <title>Form with Steps</title>
+    <style>
+        canvas#signature {
+            border: 2px solid #6366f1;
+            border-radius: 10px;
+        }
+
+        form>* {
+            margin: 10px;
+        }
+
+        .custom-h-screen {
+            height: calc(100vh + 50px);
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body class="font-inter overflow-hidden">
+    <div class="bg-indigo-500 ">
+        <div class="text-white">
+            <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5">
+                <div class="text-sm font-bold hover:underline cursor-pointer px-5">LOGO</div>
+                <div class="text-sm font-bold hover:underline cursor-pointer">HELP</div>
+            </div>
+        </div>
+
+        <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen sm:p-6">
+            <div class="md:mx-auto md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-gray-900">Enter Your Parent's Details</h2>
+
+                    <div>
+                        <label for="ifsc" class="block text-sm font-medium text-gray-700">IFSC</label>
+                        <div class="my-2 mx-1">
+                            <input type="text" name="ifsc" id="ifsc"
+                                class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                placeholder="ABCG1234567">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="micr" class="block text-sm font-medium text-gray-700">MICR</label>
+                        <div class="my-2 mx-1">
+                            <input type="text" name="micr" id="micr"
+                                class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                placeholder="123123456">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                        <div class="my-2 mx-1">
+                            <textarea rows="2" name="address" id="address"
+                                class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="acnumber" class="block text-sm font-medium text-gray-700">Account Number</label>
+                        <div class="my-2 mx-1">
+                            <input type="text" name="acnumber" id="acnumber"
+                                class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                placeholder="1231234563434">
+                        </div>
+                    </div>
+
+                    <div class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
+                        <button id="continue-button" type="button"
+                            class=" mt-12 w-full justify center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Submit
+                        </button>
+                    </div>
+                    <div class="flex justify-center md:block hidden">
+                        <button id="continue-button1" type="button"
+                            class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('ifsc').addEventListener('input', function() {
+            const ifscCode = this.value.trim();
+            const ifscPattern = /^[A-Z]{4}0[A-Z0-9]{6}$/; // Regular expression for IFSC format
+
+            if (ifscPattern.test(ifscCode)) { // Check if the IFSC code matches the pattern
+                fetch(`https://ifsc.razorpay.com/${ifscCode}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById('micr').value = data.MICR || '';
+                        const addressField = document.getElementById('address');
+                        if (!addressField.value) {
+                            addressField.value = data.ADDRESS || '';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            } else {
+                console.log('Invalid IFSC code format');
+                // Optionally, you can clear the fields or show an error message
+                document.getElementById('micr').value = '';
+                document.getElementById('address').value = '';
+            }
+        });
+
+        document.getElementById('continue-button').addEventListener('click', function() {
+            const ifscCode = document.getElementById('ifsc').value.trim();
+            const accountNumber = document.getElementById('acnumber').value.trim();
+
+            if (ifscCode && accountNumber) {
+                fetch('https://phpstack-529375-5021731.cloudwaysapps.com/api/bank-verification.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Cookie': 'PHPSESSID=kqbns69k5kllb98ttqme7p9spq'
+                    },
+                    body: new URLSearchParams({
+                        'bankAccNo': accountNumber,
+                        'ifsc': ifscCode
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result) {
+                        // Redirect to the next page
+                        window.location.href = 'next-page.html'; // Change to your next page URL
+                    } else {
+                        // Show error dialog
+                        alert('Error: ' + (data.message || 'Verification failed. Please check your details.'));
+                    }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+            } else {
+                console.log('Please fill in all required fields.');
+            }
+        });
+    </script>
+</body>
+
+</html>

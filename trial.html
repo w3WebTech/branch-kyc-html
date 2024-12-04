@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Capture and Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #preview-container {
+            margin-top: 20px;
+        }
+        #captured-image {
+            display: none;
+            width: 200px;
+            height: auto;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Upload or Capture Image</h2>
+        
+        <!-- Button to capture image -->
+        <button id="capture-button">Capture Image</button>
+        <input type="file" id="image-input" accept="image/*" capture="camera" style="display: none;">
+
+        <!-- Button to upload document -->
+        <button id="upload-button">Upload Document</button>
+        <input type="file" id="document-input" accept=".pdf,.doc,.docx" style="display: none;">
+        
+        <div id="preview-container">
+            <img id="captured-image" src="" alt="Captured Image"/>
+        </div>
+    </div>
+
+    <script>
+        const captureButton = document.getElementById('capture-button');
+        const imageInput = document.getElementById('image-input');
+        const uploadButton = document.getElementById('upload-button');
+        const documentInput = document.getElementById('document-input');
+        const capturedImage = document.getElementById('captured-image');
+
+        // Capture image functionality
+        captureButton.addEventListener('click', () => {
+            imageInput.click(); // Trigger the file input
+        });
+
+        imageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    capturedImage.src = e.target.result; // Set the image source to the captured image
+                    capturedImage.style.display = 'block'; // Show the captured image
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Upload document functionality
+        uploadButton.addEventListener('click', () => {
+            documentInput.click(); // Trigger the file input for document upload
+        });
+
+        documentInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                alert(`Document selected: ${file.name}`); // Alert the name of the uploaded document
+            }
+        });
+    </script>
+</body>
+</html>
