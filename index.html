@@ -131,58 +131,59 @@
 
             </div>
         </div>
-    </div>
-    </div>
 
-    <!-- Main content section -->
-    <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen p-6">
-        <div
-            class="md:mx-auto md:mt-10 md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 md:p-6">
-            <div class="space-y-6">
-                <h2 class="text-2xl font-semibold text-gray-900">Enter Your Mobile Number</h2>
 
-                <!-- Mobile number input -->
-                <div>
-                    <label for="mobile-number" class="block text-sm font-medium text-gray-700">Mobile Number</label>
-                    <div class="my-2 mx-1 flex rounded-md border border-gray-300">
-                        <div class="flex items-center px-3 text-gray-500 bg-gray-100 rounded-l-md">
-                            +91
+
+        <!-- Main content section -->
+        <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen p-6">
+            <div
+                class="md:mx-auto md:mt-10 md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 md:p-6">
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-gray-900">Enter Your Mobile Number</h2>
+
+
+                    <div>
+                        <label for="mobile-number" class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                        <div class="my-2 mx-1 flex rounded-md border border-gray-300">
+                            <div class="flex items-center px-3 text-gray-500 bg-gray-100 rounded-l-md">
+                                +91
+                            </div>
+                            <input type="tel" name="mobile-number" id="mobile-number"
+                                class="block w-full rounded-r-md px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                placeholder="123-456-7890" maxlength="10"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>
-                        <input type="tel" name="mobile-number" id="mobile-number"
-                            class="block w-full rounded-r-md px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                            placeholder="123-456-7890" maxlength="10"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                     </div>
-                </div>
 
-                <!-- Submit Button -->
-                <div
-                    class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full px-6 py-6 md:hidden block md:w-auto md:px-0 md:py-0">
-                    <button id="continue-button" type="button"
-                        class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        Continue
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-                            <path fill-rule="evenodd"
-                                d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex justify-center md:block hidden">
-                    <button id="continue-button-md" type="button"
-                        class=" mt-20  w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        Continue
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-                            <path fill-rule="evenodd"
-                                d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
+                    <div
+                        class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full px-6 py-6 md:hidden block md:w-auto md:px-0 md:py-0">
+                        <button id="continue-button" type="button"
+                            class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Continue
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="h-6 w-6">
+                                <path fill-rule="evenodd"
+                                    d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex justify-center md:block hidden">
+                        <button id="continue-button-md" type="button"
+                            class=" mt-20  w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Continue
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="h-6 w-6">
+                                <path fill-rule="evenodd"
+                                    d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Overlay for Bottom Sheet -->
     <div id="overlay" class="overlay"></div>
 
