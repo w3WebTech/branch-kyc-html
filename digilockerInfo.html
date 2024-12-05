@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"
+        rel="stylesheet">
     <title>Digilocker Info</title>
     <style>
         .custom-h-screen {
@@ -15,12 +16,24 @@
 
         /* New styles for address wrapping */
         .address-cell {
-            max-height: 4.5rem; /* Adjust this value to control the height */
+            max-height: 4.5rem;
+            /* Adjust this value to control the height */
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* Limit to 3 lines */
+            -webkit-line-clamp: 3;
+            /* Limit to 3 lines */
             -webkit-box-orient: vertical;
+        }
+
+        .dropdown-menu {
+            display: none;
+            /* Hide the menu by default */
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            /* Show the menu when the class 'show' is added */
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -29,13 +42,30 @@
 <body class="font-inter overflow-hidden">
     <div class="bg-indigo-500">
         <div class="text-white">
-            <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5">
-                <div class="text-sm font-bold hover:underline cursor-pointer px-5">LOGO</div>
+            <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5 text-white">
+                <div class="text-sm font-bold hover:underline cursor-pointer px-5 ">LOGO</div>
+                <div class="relative ml-3">
+                    <div>
+                        <button type="button"
+                            class="relative flex max-w-xs font-bold items-center rounded-full  text-sm   "
+                            id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span class="absolute -inset-1.5"></span>
+                            <!-- <span class="sr-only">Open user menu</span> -->
+                            HELP
+                        </button>
+                    </div>
+
+                    <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none dropdown-menu"
+                        role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-0">Your Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-1">Settings</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-2">Sign out</a>
+                    </div>
+                </div>
             </div>
-
-
-
-            
         </div>
 
         <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen sm:p-6">
@@ -45,8 +75,12 @@
                     <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-t-xl">
                         <thead class="bg-gray-50 text-sm ">
                             <tr>
-                                <th class="px-6 py-2 text-left text-sm font-medium text-gray-500 uppercase tracking-wider font-bold">Field</th>
-                                <th class="px-6 py-2  text-left text-sm font-medium text-gray-500 uppercase tracking-wider font-bold">Value</th>
+                                <th
+                                    class="px-6 py-2 text-left text-sm font-medium text-gray-500 uppercase tracking-wider font-bold">
+                                    Field</th>
+                                <th
+                                    class="px-6 py-2  text-left text-sm font-medium text-gray-500 uppercase tracking-wider font-bold">
+                                    Value</th>
                             </tr>
                         </thead>
                         <tbody id="data-table" class="bg-white divide-y divide-gray-200">
@@ -54,13 +88,16 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
-                    <button id="continue-button" type="button" class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <div
+                    class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
+                    <button id="continue-button" type="button"
+                        class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         Proceed
                     </button>
                 </div>
                 <div class="flex justify-center md:block hidden">
-                    <button id="continue-button1" type="button" class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    <button id="continue-button1" type="button"
+                        class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         Proceed
                     </button>
                 </div>
@@ -69,12 +106,26 @@
     </div>
 
     <script>
-          const continueButton = document.getElementById('continue-button');
-            const continueButton1 = document.getElementById('continue-button1');
-            
-            continueButton.addEventListener('click', routeToNextPage);
-            continueButton1.addEventListener('click', routeToNextPage);
-            function routeToNextPage() {
+        const button = document.getElementById('user-menu-button');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        button.addEventListener('click', () => {
+            // Toggle the 'show' class on the dropdown menu
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Optional: Close the dropdown if clicking outside of it
+        window.addEventListener('click', (event) => {
+            if (!button.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+        const continueButton = document.getElementById('continue-button');
+        const continueButton1 = document.getElementById('continue-button1');
+
+        continueButton.addEventListener('click', routeToNextPage);
+        continueButton1.addEventListener('click', routeToNextPage);
+        function routeToNextPage() {
             window.location.href = 'personaldetails.html'; // Use relative path
         }
         const apiUrl = "https://phpstack-529375-5021731.cloudwaysapps.com/api/get-digilocker-info.php?requestId=67347bb1a6f54d0011f7aab9";
@@ -95,7 +146,7 @@
                     { label: "DOB", value: data.result.dob },
                     { label: "Gender", value: data.result.gender },
                     { label: "Address", value: data.result.splitAddress.addressLine },
-                   
+
                     { label: "Pincode", value: data.result.splitAddress.pincode },
                     { label: "Country", value: data.result.splitAddress.country.join(", ") },
                     // { label: "Photo", value: `<img src="${data.result.photo}" alt="User  Photo" class="h-20 w-20 object-cover">` }
