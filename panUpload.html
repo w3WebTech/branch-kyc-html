@@ -353,7 +353,7 @@
                     formData.append("pan", "true");
                     formData.append("fileName", file.name);
                     formData.append("file_data", base64String); // Use the Base64 string
-alert(base64String)
+
                     try {
                         loader.style.display = 'block'; // Show loader
                         const response = await axios.post(apiUrl, formData, {
