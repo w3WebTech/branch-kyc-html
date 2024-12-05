@@ -42,6 +42,7 @@
             border-top-right-radius: 20px;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
             transition: bottom 0.3s ease;
+            z-index: 1000;
         }
 
         .bottom-sheet.show {
@@ -210,6 +211,7 @@
 
         continuebutton.addEventListener('click', () => {
             if (window.innerWidth < 768) { // Mobile devices
+                overlay.classList.add('show');
                 bottomSheet.classList.add('show');
             } else { // Medium devices and above
                 overlay.classList.add('show');
@@ -219,6 +221,7 @@
 
         continuebutton1.addEventListener('click', () => {
             if (window.innerWidth < 768) { // Mobile devices
+                overlay.classList.add('show');
                 bottomSheet.classList.add('show');
             } else { // Medium devices and above
                 overlay.classList.add('show');
@@ -227,6 +230,7 @@
         });
 
         document.getElementById('close-bottom-sheet').addEventListener('click', () => {
+            overlay.classList.remove('show');
             bottomSheet.classList.remove('show');
             requestCameraAndLocation();
         });
