@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <title>Form with Steps</title>
+    <style>
+        canvas#signature {
+            border: 2px solid #6366f1;
+            border-radius: 10px;
+        }
+
+        form>* {
+            margin: 10px;
+        }
+
+        .custom-h-screen {
+            height: calc(100vh + 50px);
+            background-color: white;
+        }
+
+        .dropdown-menu {
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        #video {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        #captured-image {
+            display: none;
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .button-container {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body class="font-inter overflow-hidden">
+    <div class="bg-indigo-500 ">
+        <div class="text-white">
+            <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5">
+                <div class="text-sm font-bold hover:underline cursor-pointer px-5">LOGO</div>
+                <div class="relative ml-3">
+                    <div>
+                        <button type="button"
+                            class="relative flex max-w-xs font-bold items-center rounded-full text-sm"
+                            id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span class="absolute -inset-1.5"></span>
+                            HELP
+                        </button>
+                    </div>
+
+                    <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none dropdown-menu"
+                        role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-0">Your Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-1">Settings</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-2">Sign out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen sm:p-6">
+            <div class="md:mx-auto md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-gray-900">Capture Your Image</h2>
+
+                    <video id="video" autoplay></video>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                    <img id="captured-image" src="" alt="Captured Image" />
+
+                    <div class="button-container flex justify-center">
+                        <button id="capture-button" type="button"
+                            class="mt-4 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Capture
+                        </button>
+                    </div>
+
+                    <div id="image-controls" class="button-container flex justify-center" style="display : none;">
+                        <button id="retake-button" type="button"
+                            class="mt-4 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">
+                            Retake
+                        </button>
+                        <button id="proceed-button" type="button"
+                            class="mt-4 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-green-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500">
+                            Proceed
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const capturedImage = document.getElementById('captured-image');
+        const captureButton = document.getElementById('capture-button');
+        const retakeButton = document.getElementById('retake-button');
+        const proceedButton = document.getElementById('proceed-button');
+        const imageControls = document.getElementById('image-controls');
+
+        // Access the device camera and stream to video element
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Error accessing the camera: ", err);
+            });
+
+        captureButton.addEventListener('click', () => {
+            // Draw the video frame to the canvas
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // Set the captured image source to the canvas data
+            capturedImage.src = canvas.toDataURL('image/png');
+            capturedImage.style.display = 'block';
+            imageControls.style.display = 'flex';
+            video.style.display = 'none';
+            captureButton.style.display = 'none';
+        });
+
+        retakeButton.addEventListener('click', () => {
+            capturedImage.style.display = 'none';
+            imageControls.style.display = 'none';
+            video.style.display = 'block';
+            captureButton.style.display = 'inline-block';
+        });
+
+        proceedButton.addEventListener('click', () => {
+            // Logic to proceed to the next step
+            alert('Proceeding to the next step...');
+            // You can redirect or perform any action here
+        });
+    </script>
+</body>
+
+</html>
