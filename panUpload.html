@@ -339,6 +339,7 @@
                 captureButton.style.display = 'none';
                 uploadButton.style.display = 'none';
             }
+            
 
             const uploadPan = async (file) => {
                 const apiUrl = "https://gkyc.gwcindia.in/web-ocr/api-ocr-documents.php";
@@ -352,7 +353,7 @@
                     formData.append("pan", "true");
                     formData.append("fileName", file.name);
                     formData.append("file_data", base64String); // Use the Base64 string
-
+alert(base64String)
                     try {
                         loader.style.display = 'block'; // Show loader
                         const response = await axios.post(apiUrl, formData, {
@@ -370,12 +371,15 @@
                                 imageControls.style.display = 'none';
                             } else {
                                 alert("Upload Valid Pan!");
+                                showButtons()
                             }
                         } else {
                             alert("Invalid Pan!");
+                            showButtons()
                         }
                     } catch (error) {
-                        loader.style.display = 'none'; // Hide loader on error
+                        loader.style.display = 'none';
+                        showButtons() // Hide loader on error
                         console.error("Error calling API:", error);
                     }
                 };
