@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <title>Form with Steps</title>
+    <style>
+        canvas#signature {
+            border: 2px solid #6366f1;
+            border-radius: 10px;
+        }
+
+        form>* {
+            margin: 10px;
+        }
+
+        .custom-h-screen {
+            height: calc(100vh + 50px);
+            background-color: white;
+        }
+
+        .dropdown-menu {
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        #preview-container {
+            margin-top: 20px;
+        }
+
+        #captured-image {
+            display: none;
+            width: 200px;
+            height: auto;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+        }
+
+        .button-container {
+            margin-top: 10px;
+        }
+
+        /* Loader styles */
+        .loader {
+            display: none;
+            border: 4px solid #f3f3f3;
+            /* Light grey */
+            border-top: 4px solid #6366f1;
+            /* Blue */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            height: 50%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        /* Bottom sheet styles */
+        .bottom-sheet {
+            display: none;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+      
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .overlay.open {
+            display: block;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body class="font-inter overflow-hidden">
+    <div class="bg-indigo-500 ">
+        <div class="text-white">
+            <div class="max-w-7xl mx-auto flex justify-end items-center px-6 py-5">
+                <div class="text-sm font-bold hover:underline cursor-pointer px-5">LOGO</div>
+                <div class="relative ml-3">
+                    <div>
+                        <button type="button" class="relative flex max-w-xs font-bold items-center rounded-full text-sm"
+                            id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span class="absolute -inset-1.5"></span>
+                            HELP
+                        </button>
+                    </div>
+
+                    <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none dropdown-menu"
+                        role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-0">Your Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-1">Settings</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-2">Sign out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen sm:p-6">
+            <div class="md:mx-auto md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-gray-900">Upload Pan Card</h2>
+                    <div>
+                        <div class="flex justify-center my-10">
+                            <div id="capture-button">
+                                <div class="bg-indigo-100 mx-5 p-3 rounded">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#6366f1"
+                                        class="h-6 w-6 ">
+                                        <path d="M12 9a3.75 3.75 0 1 0 0 7.5A3.75  3.75 0 0 0 12 9Z" />
+                                        <path fill-rule="evenodd"
+                                            d="M9.344 3.071a49.52 49.52 0 0 1 5.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 0 1-3 3h-15a3 3 0 0 1-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 0 0 1.11-.71l.822-1.315a2.942 2.942 0 0 1 2.332-1.39ZM6.75 12.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Zm12-1.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <span class="mx-5 text-sm font-bold">Upload</span>
+                                <input type="file" id="image-input" accept="image/*" capture="camera"
+                                    style="display: none;">
+                            </div>
+                            <div id="upload-button">
+                                <div class="bg-indigo-100 mx-5 p-3 rounded">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24  24" fill="#6366f1" class="h-6 w-6">
+                                        <path d="M9.97.97a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 0 1-1.06-1.06l3-3ZM9.75 6.75v6a.75.75 0 0 0 1.5 0v-6h3a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h3Z" />
+                                        <path d="M7.151 21.75a2.999 2.999 0 0 0 2.599 1.5h7.5a3 3 0 0 0 3-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 0 1-4.5 4.5H7.151Z"></path>
+                                    </svg>
+                                </div>
+                                <span class="mx-5 text-sm font-bold">Capture</span>
+                                <input type="file" id="document-input" style="display: none;">
+                            </div>
+                        </div>
+
+                        <div id="preview-container">
+                            <img id="captured-image" src="" class="h-20 w-20" height="50px" width="50px"
+                                alt="Captured Image" />
+                            <div id="image-controls" class="button-container" style="display: none;">
+                                <div class="flex items-center my-2">
+                                    <div id="delete-image" class="bg-red-500 rounded-md p-2 mx-2 w-10 cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"
+                                            class="h-4 w-4">
+                                            <path fill-rule="evenodd"
+                                                d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div id="retake-image" class="bg-green-500 rounded-md p-2 mx-2 w -10 cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"
+                                            class="h-4 w-4">
+                                            <path fill-rule="evenodd"
+                                                d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="document-controls" class="button-container flex  items-center" style="display: none;">
+                              
+                                <div class="flex justify-between my-2 bg-blue-50 rounded-md p-5">
+                                    <div id="file-name" class="text-sm font-bold"></div>
+                                    <div class="flex items-center ">
+                                    <div id="delete-document" class="bg-red-500 rounded-md p-2 mx-2  cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="h-4 w-4">
+                                            <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div id="reupload-document" class="bg-green-500 rounded-md p-2 mx-2  cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="h-4 w-4">
+                                            <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z"></path>
+                                        </svg>
+                                    </div>
+                                    <div id="view-document" class="bg-blue-500 rounded-md p-2 mx-2  cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="h-4 w-4">
+                                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                            <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+                                          </svg>
+                                          
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="loader" id="loader"></div>
+                        <div id="file-name" class="text-sm font-bold"></div>
+
+                        <div
+                            class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
+                            <button id="continue-button" type="button"
+                                class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                Proceed
+                            </button>
+                        </div>
+                        <div class="flex justify-center md:block hidden">
+                            <button id="continue-button1" type="button"
+                                class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                Proceed
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View file modal -->
+        <div class="overlay" id="overlay"></div>
+       
+            <div id="view-file-modal" class="modal">
+                <div class="modal-content">
+                    <span id="close-view-file-modal" class="close font-bold cursor-pointer">&times;</span>
+                    <h2 class="text-2xl font-semibold text-gray-900 py-2">View File</h2>
+                    <embed id="view-file-embed" src="" type="application/pdf" width="400px" height="400px">
+                </div>
+            </div>
+      
+
+        <div class="bottom-sheet" id="bottom-sheet">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-semibold text-gray-900 py-2"> View File</h2>
+                <button id="close-bottom-sheet" class="text-red-500 font-bold cursor-pointer">Close</button>
+            </div>
+            <embed id="view-file-embed" src="" type="application/pdf" width="100%" height="500px">
+        </div>
+
+        <script>
+            const button = document.getElementById('user-menu-button');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            const loader = document.getElementById('loader');
+
+            button.addEventListener('click', () => {
+                dropdownMenu.classList.toggle('show');
+            });
+
+            window.addEventListener('click', (event) => {
+                if (!button.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+
+            const captureButton = document.getElementById('capture-button');
+            const imageInput = document.getElementById('image-input');
+            const uploadButton = document.getElementById('upload-button');
+            const documentInput = document.getElementById('document-input');
+            const capturedImage = document.getElementById('captured-image');
+            const imageControls = document.getElementById('image-controls');
+            const documentControls = document.getElementById('document-controls');
+            const fileNameDisplay = document.getElementById('file-name');
+            
+            const bottomSheet = document.getElementById('bottom-sheet');
+            const closeModal = document.getElementById('close-modal');
+            const closeBottomSheet = document.getElementById('close-bottom-sheet');
+            const viewDocumentButton = document.getElementById('view-document');
+            const viewFileModal = document.getElementById('view-file-modal');
+            const closeViewFileModal = document.getElementById('close-view-file-modal');
+            const viewFileEmbed = document.getElementById('view-file-embed');
+            const continueButton = document.getElementById('continue-button');
+            const continueButton1 = document.getElementById('continue-button1');
+            
+            continueButton.addEventListener('click', routeToNextPage);
+            continueButton1.addEventListener('click', routeToNextPage);
+            function routeToNextPage() {
+            window.location.href = 'digilocker.html'; // Use relative path
+        }
+            function showButtons() {
+                captureButton.style.display = 'inline-block';
+                uploadButton.style.display = 'inline-block';
+            }
+
+            function hideButtons() {
+                captureButton.style.display = 'none';
+                uploadButton.style.display = 'none';
+            }
+
+            const uploadPan = async (file) => {
+                const apiUrl = "https://gkyc.gwcindia.in/web-ocr/api-ocr-documents.php";
+
+                // Convert file to Base64
+                const reader = new FileReader();
+                reader.onload = async function (event) {
+                    const base64String = event.target.result.split(',')[1]; // Get the Base64 string without the metadata
+
+                    const formData = new FormData();
+                    formData.append("pan", "true");
+                    formData.append("fileName", file.name);
+                    formData.append("file_data", base64String); // Use the Base64 string
+
+                    try {
+                        if (loader) {
+                            loader.style.display = 'block'; // Show loader
+                        }
+                        const response = await axios.post(apiUrl, formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        });
+                        if (loader) {
+                            loader.style.display = 'none'; // Hide loader
+                        }
+                        if (response && response.data && response.data.status === 'ok' && response.data.panOcrData) {
+                            const uid = response.data.panOcrData.error;
+                            if (!uid) {
+                                console.log(response.data);
+                                fileNameDisplay.textContent = ` ${file.name}`;
+                                documentControls.style.display = 'block';
+                                imageControls.style.display = 'none';
+                                //showSuccessMessage();
+                            } else {
+                                alert("Upload Valid Pan!");
+                            }
+                        } else {
+                            alert("Invalid Pan!");
+                        }
+                    } catch (error) {
+                        if (loader) {
+                            loader.style.display = 'none'; // Hide loader on error
+                        }
+                        console.error("Error calling API:", error);
+                    }
+                };
+
+                reader.readAsDataURL(file); // Read the file as a data URL
+            };
+
+            function showSuccessMessage() {
+                const isMobile = window.innerWidth < 768; // Check if the device is mobile
+                if (isMobile) {
+                    bottomSheet.style.display = 'block'; // Show bottom sheet for mobile
+                } else {
+                  
+                    //successModal.style.display = 'block'; // Show modal for medium devices
+                }
+            }
+
+            captureButton.addEventListener('click', () => {
+                imageInput.click();
+            });
+
+            imageInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    uploadPan(file);
+                    hideButtons();
+                }
+            });
+
+            uploadButton.addEventListener('click', () => {
+                documentInput.click();
+            });
+
+            documentInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    uploadPan(file);
+                    hideButtons();
+                }
+            });
+
+            document.getElementById('delete-image').addEventListener('click', () => {
+                capturedImage.src = '';
+                capturedImage.style.display = 'none';
+                imageControls.style.display = 'none';
+                imageInput.value = '';
+                showButtons();
+            });
+
+            document.getElementById('retake-image').addEventListener('click', () => {
+                capturedImage.src = '';
+                capturedImage.style.display = 'none';
+                imageInput.value = '';
+                imageInput.click();
+            });
+
+            document.getElementById('delete-document').addEventListener('click', () => {
+                fileNameDisplay.textContent = '';
+                documentControls.style.display = 'none';
+                documentInput.value = '';
+                showButtons();
+            });
+
+            document.getElementById('reupload-document').addEventListener('click', () => {
+                documentInput.value = '';
+                documentInput.click();
+            });
+
+            viewDocumentButton.addEventListener('click', () => {
+                const file = documentInput.files[0];
+                if (file) {
+                    const fileURL = URL.createObjectURL(file);
+                    viewFileEmbed.src = fileURL; // Set the source of the embed to the file URL
+
+                    const isMobile = window.innerWidth < 768; // Check if the device is mobile
+                    if (isMobile) {
+                        // Show bottom sheet for mobile
+                        bottomSheet.style.display = 'block';
+                    } else {
+                        // Show dialog for medium and larger devices
+                        
+                        viewFileModal.style.display = 'block';
+                    }
+                }
+            });
+
+            closeViewFileModal.onclick = function () {
+                viewFileModal.style.display = 'none'; // Hide the view file modal
+                viewFileEmbed.src = ''; // Clear the embed source
+            }
+
+            document.getElementById('close-bottom-sheet').onclick = function () {
+                bottomSheet.style.display = 'none'; // Hide the bottom sheet
+            };
+        </script>
+    </body>
+</html>

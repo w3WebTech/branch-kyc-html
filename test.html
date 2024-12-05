@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <title>Button Animation Test</title>
+    <style>
+        /* Custom styles for the button animation */
+        .bg-animation {
+            position: absolute; /* Correct positioning for the background span */
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0; /* Initially set width to 0 */
+            z-index: 0; /* Ensure the background is behind the text */
+            background-color: #6b46c1; /* The background color to animate */
+            opacity: 0.9;
+            transition: width 0.3s ease-out; /* Smooth transition for width */
+        }
+        .button-text {
+            position: relative; /* Ensure the text stays above the background */
+            z-index: 1; /* Make sure the text is above the background */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+    <div>
+        <button class="group relative inline-block overflow-hidden rounded border-4 border-double border-purple-500 px-8 py-3 font-medium text-purple-600">
+            <span class="bg-animation group-hover:w-full"></span> <!-- Animated background span -->
+            <span class="relative button-text group-hover:text-white">Button Text</span> <!-- Text span -->
+        </button>
+    </div>
+</body>
+</html>
