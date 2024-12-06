@@ -350,8 +350,11 @@
                 overlay.classList.add('visible');
 
                 if (window.innerWidth < 768) {
-                    otpBottomSheet.classList.remove('hidden');
-                    otpBottomSheet.classList.add('visible');
+                    setTimeout(function () {
+                        otpBottomSheet.classList.remove('hidden');
+                        otpBottomSheet.classList.add('visible');
+                    }, 1000);
+
                 } else {
                     otpDialog.classList.remove('hidden');
                     otpDialog.classList.add('visible');
