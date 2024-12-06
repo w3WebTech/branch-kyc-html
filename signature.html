@@ -22,6 +22,7 @@
             height: calc(100vh + 50px);
             background-color: white;
         }
+
         .dropdown-menu {
             display: none;
             /* Hide the menu by default */
@@ -30,6 +31,57 @@
         .dropdown-menu.show {
             display: block;
             /* Show the menu when the class 'show' is added */
+        }
+
+        .swipe-button {
+            position: relative;
+
+            /* Adjust the width according to your preference */
+            padding: 6px 16px;
+            /* Horizontal padding for the button */
+            border: 2px solid #3a23a3;
+            /* Red border */
+            background-color: #3a23a3;
+            color: white;
+            /* Red text */
+
+
+            transition: all 0.3s ease;
+        }
+
+        .swipe-button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            top: 0;
+            width: 0;
+            background-color: #6046d3;
+
+            /* Red background */
+            z-index: 0;
+            transition: all 0.5s ease;
+        }
+
+        .swipe-button:hover::before {
+            width: 100%;
+            /* Expands to full width */
+        }
+
+        .swipe-button:hover {
+            color: white;
+            /* Change text color to white on hover */
+            box-shadow: 0 0 10px #3a23a3;
+            /* Red shadow */
+            border: 2px solid #6046d3;
+            background-color: #3a23a3;
+        }
+
+        .swipe-button span {
+            position: relative;
+            z-index: 1;
+
+            /* Ensures text is above the background */
         }
     </style>
 </head>
@@ -65,37 +117,50 @@
 
         <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen sm:p-6">
             <div class="md:mx-auto  md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
-                <form action="submit.php" onsubmit="return onSubmit(this)" method="post">
-                    <h2 class="text-2xl font-semibold text-gray-900">Signature</h2>
-                    <div>
-                        <label for="details" class="block text-sm font-medium text-gray-700 my-1">Name</label>
-                        <div class="mt-2">
-                            <input type="name" name="name" id="name"
-                                class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                                placeholder="john">
+                <div class="transition-transform duration-500 transform translate-y-full " id="form-container">  <div class="space-y-2">
+               
+                    <form action="submit.php" onsubmit="return onSubmit(this)" method="post">
+
+                        <h2 class="text-2xl font-semibold text-gray-900">Signature</h2>
+                        <div>
+                            <label for="details" class="block text-sm font-medium text-gray-700 my-1">Name</label>
+                            <div class="mt-2">
+                                <input type="name" name="name" id="name"
+                                    class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                    placeholder="john">
+                            </div>
                         </div>
+
+                        <div class="sm:py-5">
+                            <label for="details" class="block text-sm font-medium text-gray-700 my-1">Sign here</label>
+                            <canvas id="signature" width="350" height="100"></canvas>
+                        </div>
+                        <div>
+                            <input type="hidden" name="signature" />
+                        </div>
+                        <!-- <button type="submit">Send</button> -->
+                    </form>
+
+                    <div class=" flex justify-center md:block hidden">
+                        <!-- <button id="continue-button1" type="button"
+                        class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        Submit
+                    </button> -->
+                        <button id="continue-button"
+                            class=" mt-12 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                            <span class="relative z-10 "> Submit </span>
+                        </button>
                     </div>
 
-                    <div class="sm:py-5">
-                        <label for="details" class="block text-sm font-medium text-gray-700 my-1">Sign here</label>
-                        <canvas id="signature" width="350" height="100"></canvas>
-                    </div>
-                    <div>
-                        <input type="hidden" name="signature" />
-                    </div>
-                    <!-- <button type="submit">Send</button> -->
-                </form>
+                </div></div>
                 <div
                     class=" md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
-                    <button id="continue-button" type="button"
-                        class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        Submit
-                    </button>
-                </div>
-                <div class=" flex justify-center md:block hidden">
-                    <button id="continue-button1" type="button"
-                        class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        Submit
+                    <!-- <button id="continue-button" type="button"
+                    class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Submit
+                </button> -->
+                    <button id="continue-button" class=" mt-12 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                        <span class="relative z-10 "> Submit </span>
                     </button>
                 </div>
 
@@ -105,6 +170,11 @@
     </div>
 
     <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const formContainer = document.getElementById("form-container");
+            formContainer.classList.remove("translate-y-full");
+            formContainer.classList.add("translate-y-0");
+        });
         var canvas = document.getElementById('signature');
         var ctx = canvas.getContext("2d");
         var drawing = false;
@@ -161,9 +231,12 @@
             prevY = touch.clientY - canvas.offsetTop;
         }
         function routeToNextPage() {
-            window.location.href = 'cameraPermission.html'; // Use relative path
+            setTimeout(function () {
+                window.location.href = 'cameraPermission.html'; // Use relative path
+                    }, 300);
+           
         }
-       
+
         function touchMove(e) {
             if (!drawing) return;
             e.preventDefault(); // Prevent scrolling
@@ -183,7 +256,7 @@
             prevX = prevY = null;
             signature.value = canvas.toDataURL(); // Save the signature as a base64 image
         }
-
+      
         function onSubmit(form) {
             // You can add any validation here if needed before submitting the form
             // For example, check if the signature is drawn
@@ -210,6 +283,7 @@
                 dropdownMenu.classList.remove('show');
             }
         });
+        
     </script>
 
 </body>

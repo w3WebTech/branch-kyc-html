@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"
+        rel="stylesheet">
     <title>Form with Steps</title>
     <style>
         canvas#signature {
@@ -29,6 +30,57 @@
         .dropdown-menu.show {
             display: block;
         }
+
+        .swipe-button {
+            position: relative;
+
+            /* Adjust the width according to your preference */
+            padding: 6px 16px;
+            /* Horizontal padding for the button */
+            border: 2px solid #3a23a3;
+            /* Red border */
+            background-color: #3a23a3;
+            color: white;
+            /* Red text */
+
+
+            transition: all 0.3s ease;
+        }
+
+        .swipe-button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            top: 0;
+            width: 0;
+            background-color: #6046d3;
+
+            /* Red background */
+            z-index: 0;
+            transition: all 0.5s ease;
+        }
+
+        .swipe-button:hover::before {
+            width: 100%;
+            /* Expands to full width */
+        }
+
+        .swipe-button:hover {
+            color: white;
+            /* Change text color to white on hover */
+            box-shadow: 0 0 10px #3a23a3;
+            /* Red shadow */
+            border: 2px solid #6046d3;
+            background-color: #3a23a3;
+        }
+
+        .swipe-button span {
+            position: relative;
+            z-index: 1;
+
+            /* Ensures text is above the background */
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
@@ -40,16 +92,21 @@
                 <div class="text-sm font-bold hover:underline cursor-pointer px-5">LOGO</div>
                 <div class="relative ml-3">
                     <div>
-                        <button type="button" class="relative flex max-w-xs font-bold items-center rounded-full text-sm" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                        <button type="button" class="relative flex max-w-xs font-bold items-center rounded-full text-sm"
+                            id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                             <span class="absolute -inset- 1.5"></span>
                             HELP
                         </button>
                     </div>
 
-                    <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none dropdown-menu" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+                    <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none dropdown-menu"
+                        role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-0">Your Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-1">Settings</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-2">Sign out</a>
                     </div>
                 </div>
             </div>
@@ -58,19 +115,32 @@
         <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen sm:p-6">
             <div class="md:mx-auto md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
                 <div class="space-y-6">
-                    <h2 class="text-2xl font-semibold text-gray-900">Digilocker</h2>
-                    <div class="md:flex md:justify-center">
-                        <img src="images/digilocker.jpg" alt="Placeholder Image" style="height: 200px; width: auto;" class="rounded shadow-md w-full">
-                    </div>
+                    <div class="transition-transform duration-500 transform translate-y-full " id="form-container">
+                        <h2 class="text-2xl font-semibold text-gray-900">Digilocker</h2>
+                        <div class="md:flex md:justify-center my-6">
+                            <img src="images/digilocker.jpg" alt="Placeholder Image" style="height: 200px; width: auto;"
+                                class="rounded shadow-md w-full">
+                        </div>
 
-                    <div class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
-                        <button id="continue-button" type="button" class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+
+                        <div class="flex justify-center md:block hidden">
+                            <!-- <button id="continue-button1" type="button" class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             Proceed
-                        </button>
+                        </button> -->
+                            <button id="continue-button1"
+                                class=" mt-12 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                                <span class="relative z-10 "> Proceed </span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="flex justify-center md:block hidden">
-                        <button id="continue-button1" type="button" class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    <div
+                        class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
+                        <!-- <button id="continue-button" type="button" class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             Proceed
+                        </button> -->
+                        <button id="continue-button"
+                            class=" mt-20 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                            <span class="relative z-10 "> Proceed </span>
                         </button>
                     </div>
                 </div>
@@ -91,15 +161,21 @@
                 dropdownMenu.classList.remove('show');
             }
         });
+        document.addEventListener("DOMContentLoaded", function () {
+            const formContainer = document.getElementById("form-container");
+            formContainer.classList.remove("translate-y-full");
+            formContainer.classList.add("translate-y-0");
+        });
 
         const proceedButton = document.getElementById('continue-button');
         const proceedButton1 = document.getElementById('continue-button1');
         const feedbackMessage = document.createElement('div');
-        feedbackMessage.className = 'text-red-500 mt-2'; // Tailwind class for error message
+        feedbackMessage.className = 'text-red-500 mt-2';
+
         document.body.appendChild(feedbackMessage);
 
         const makeApiCall = async () => {
-            feedbackMessage.textContent = ''; // Clear previous messages
+            feedbackMessage.textContent = '';
             const apiUrl = "https://phpstack-529375-5021731.cloudwaysapps.com/api/create-digilocker.php?callbackUrl=https://branch-kyc-html.vercel.app/digilockerInfo.html";
             try {
                 const response = await axios.get(apiUrl);
@@ -113,7 +189,6 @@
                 feedbackMessage.textContent = 'Error calling API: ' + error.message;
             }
         };
-
         proceedButton.addEventListener('click', makeApiCall);
         proceedButton1.addEventListener('click', makeApiCall);
     </script>

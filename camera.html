@@ -50,6 +50,56 @@
         .button-container {
             margin-top: 10px;
         }
+        .swipe-button {
+            position: relative;
+
+            /* Adjust the width according to your preference */
+            padding: 6px 16px;
+            /* Horizontal padding for the button */
+            border: 2px solid #3a23a3;
+            /* Red border */
+            background-color: #3a23a3;
+            color: white;
+            /* Red text */
+
+
+            transition: all 0.3s ease;
+        }
+
+        .swipe-button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            top: 0;
+            width: 0;
+            background-color: #6046d3;
+
+            /* Red background */
+            z-index: 0;
+            transition: all 0.5s ease;
+        }
+
+        .swipe-button:hover::before {
+            width: 100%;
+            /* Expands to full width */
+        }
+
+        .swipe-button:hover {
+            color: white;
+            /* Change text color to white on hover */
+            box-shadow: 0 0 10px #3a23a3;
+            /* Red shadow */
+            border: 2px solid #6046d3;
+            background-color: #3a23a3;
+        }
+
+        .swipe-button span {
+            position: relative;
+            z-index: 1;
+
+            /* Ensures text is above the background */
+        }
     </style>
 </head>
 
@@ -176,6 +226,11 @@
             // Logic to proceed to the next step
             window.location.href = 'parentDetails.html';
             // You can redirect or perform any action here
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const formContainer = document.getElementById("form-container");
+            formContainer.classList.remove("translate-y-full");
+            formContainer.classList.add("translate-y-0");
         });
     </script>
 </body>

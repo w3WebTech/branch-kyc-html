@@ -80,6 +80,7 @@
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             }
         }
+
         .dropdown-menu {
             display: none;
             /* Hide the menu by default */
@@ -88,6 +89,57 @@
         .dropdown-menu.show {
             display: block;
             /* Show the menu when the class 'show' is added */
+        }
+
+        .swipe-button {
+            position: relative;
+
+            /* Adjust the width according to your preference */
+            padding: 6px 16px;
+            /* Horizontal padding for the button */
+            border: 2px solid #3a23a3;
+            /* Red border */
+            background-color: #3a23a3;
+            color: white;
+            /* Red text */
+
+
+            transition: all 0.3s ease;
+        }
+
+        .swipe-button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            top: 0;
+            width: 0;
+            background-color: #6046d3;
+
+            /* Red background */
+            z-index: 0;
+            transition: all 0.5s ease;
+        }
+
+        .swipe-button:hover::before {
+            width: 100%;
+            /* Expands to full width */
+        }
+
+        .swipe-button:hover {
+            color: white;
+            /* Change text color to white on hover */
+            box-shadow: 0 0 10px #3a23a3;
+            /* Red shadow */
+            border: 2px solid #6046d3;
+            background-color: #3a23a3;
+        }
+
+        .swipe-button span {
+            position: relative;
+            z-index: 1;
+
+            /* Ensures text is above the background */
         }
     </style>
 </head>
@@ -127,41 +179,29 @@
             <div
                 class="md:mx-auto md:mt-10 md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 md:p-6">
                 <div class="space-y-6">
-                    <h2 class="text-2xl font-semibold text-gray-900">Enter Your Email Address</h2>
+                    <div class="transition-transform duration-500 transform translate-y-full my-10" id="form-container">
+                        <h2 class="text-2xl font-semibold text-gray-900">Enter Your Email Address</h2>
 
-                    <!-- Email input -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                        
-                        <div class="my-4 mx-1 flex rounded-md border border-gray-300">
-                            <div class="flex items-center px-3 text-gray-500 bg-gray-100 rounded-l-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                                  </svg>
-                                  
+                        <!-- Email input -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+
+                            <div class="my-4 mx-1 flex rounded-md border border-gray-300">
+                                <div class="flex items-center px-3 text-gray-500 bg-gray-100 rounded-l-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                    </svg>
+
+                                </div>
+                                <input type="email" name="email" id="email"
+                                    class="block w-full rounded-r-md px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                    placeholder="example@example.com">
                             </div>
-                            <input  type="email" name="email" id="email"
-                                class="block w-full rounded-r-md px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                                placeholder="example@example.com">
                         </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div
-                        class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full px-6 py-4 md:hidden block md:w-auto md:px-0 md:py-0">
-                        <button id="continue-button" type="button"
-                            class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                            Continue
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="h-6 w-6">
-                                <path fill-rule="evenodd"
-                                    d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="flex justify-center md:block hidden">
-                        <button id="continue-button-md" type="button"
+                        <div class="flex justify-center md:block hidden">
+                            <!-- <button id="continue-button-md" type="button"
                             class="mt-12 w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             Continue
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -170,8 +210,32 @@
                                     d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
                                     clip-rule="evenodd" />
                             </svg>
-                        </button>
+                        </button> -->
+                            <button id="continue-button-md"
+                                class=" mt-20 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                                <span class="relative z-10 "> Submit </span>
+                            </button>
+                        </div>
+                        <!-- Submit Button -->
+                       
                     </div>
+                    <div
+                    class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full px-6 py-4 md:hidden block md:w-auto md:px-0 md:py-0">
+                    <!-- <button id="continue-button" type="button"
+                    class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Continue
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="h-6 w-6">
+                        <path fill-rule="evenodd"
+                            d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button> -->
+                    <button id="continue-button"
+                        class=" mt-20 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                        <span class="relative z-10 "> Submit </span>
+                    </button>
+                </div>
                 </div>
             </div>
         </div>
@@ -208,9 +272,12 @@
                     disabled>Resend</button>
             </div>
             <div class="mt-4">
-                <button id="submit-otp" type="button"
+                <!-- <button id="submit-otp" type="button"
                     class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Submit
+                </button> -->
+                <button id="submit-otp" class=" mt-20 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                    <span class="relative z-10 "> Submit </span>
                 </button>
             </div>
         </div>
@@ -245,9 +312,12 @@
                     disabled>Resend</button>
             </div>
             <div class="mt-4">
-                <button id="submit-otp-dialog" type="button"
+                <!-- <button id="submit-otp-dialog" type="button"
                     class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Submit
+                </button> -->
+                <button id="submit-otp-dialog" class=" mt-20 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                    <span class="relative z-10 "> Submit </span>
                 </button>
             </div>
         </div>
@@ -271,7 +341,11 @@
         submitOtp.addEventListener('click', routeToNextPage);
         continueButton.addEventListener('click', handleContinue);
         continueButtonMd.addEventListener('click', handleContinue);
-
+        document.addEventListener("DOMContentLoaded", function () {
+            const formContainer = document.getElementById("form-container");
+            formContainer.classList.remove("translate-y-full");
+            formContainer.classList.add("translate-y-0");
+        });
         function handleContinue() {
             const email = emailInput.value;
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email validation
@@ -280,8 +354,11 @@
                 overlay.classList.add('visible');
 
                 if (window.innerWidth < 768) {
-                    otpBottomSheet.classList.remove('hidden');
-                    otpBottomSheet.classList.add('visible');
+                    setTimeout(function () {
+                        otpBottomSheet.classList.remove('hidden');
+                        otpBottomSheet.classList.add('visible');
+                    }, 500);
+
                 } else {
                     otpDialog.classList.remove('hidden');
                     otpDialog.classList.add('visible');

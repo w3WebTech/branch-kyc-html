@@ -83,6 +83,57 @@
         .overlay.show {
             display: block;
         }
+
+        .swipe-button {
+            position: relative;
+
+            /* Adjust the width according to your preference */
+            padding: 6px 16px;
+            /* Horizontal padding for the button */
+            border: 2px solid #3a23a3;
+            /* Red border */
+            background-color: #3a23a3;
+            color: white;
+            /* Red text */
+
+
+            transition: all 0.3s ease;
+        }
+
+        .swipe-button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            top: 0;
+            width: 0;
+            background-color: #6046d3;
+
+            /* Red background */
+            z-index: 0;
+            transition: all 0.5s ease;
+        }
+
+        .swipe-button:hover::before {
+            width: 100%;
+            /* Expands to full width */
+        }
+
+        .swipe-button:hover {
+            color: white;
+            /* Change text color to white on hover */
+            box-shadow: 0 0 10px #3a23a3;
+            /* Red shadow */
+            border: 2px solid #6046d3;
+            background-color: #3a23a3;
+        }
+
+        .swipe-button span {
+            position: relative;
+            z-index: 1;
+
+            /* Ensures text is above the background */
+        }
     </style>
 </head>
 
@@ -116,22 +167,37 @@
         <div class="mx-auto mt-5 bg-white rounded-t-xl shadow-lg overflow-hidden w-full custom-h-screen sm:p-6">
             <div class="md:mx-auto md:bg-white md:rounded -xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 p-6">
                 <div class="space-y-3">
-                    <h2 class="text-2xl font-semibold text-gray-900">Enter Your Parent's Details</h2>
+                    <div class="transition-transform duration-500 transform translate-y-full " id="form-container">
+                        <h2 class="text-2xl font-semibold text-gray-900">IPV</h2>
 
-                    <div class="">
-                        <img src="images/selfie.png" alt="Placeholder Image" style="height: 350px;" class="rounded shadow-md w-full">
-                    </div>
+                        <div class="">
+                            <img src="images/selfie.png" alt="Placeholder Image" style="height: 350px;"
+                                class="rounded shadow-md w-full">
+                        </div>
 
-                    <div class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
-                        <button id="continue-button" type="button"
+
+                        <div class="flex justify-center md:block hidden">
+                            <!-- <button id="continue-button1" type="button"
                             class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             Submit
-                        </button>
+                        </button> -->
+                            <button id="continue-button1"
+                                class="mt-5 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                                <span class="relative z-10 "> Proceed </span>
+                            </button>
+                        </div>
+
+
                     </div>
-                    <div class="flex justify-center md:block hidden">
-                        <button id="continue-button1" type="button"
+                    <div
+                        class="md:hidden block flex justify-center w-full fixed bottom-0 left-1/2 transform -translate-x-1/2 px-6 py-4 md:px-0 md:py-0">
+                        <!-- <button id="continue-button" type="button"
                             class="w-full justify-center inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             Submit
+                        </button> -->
+                        <button id="continue-button"
+                            class=" mt-20 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                            <span class="relative z-10 "> Proceed </span>
                         </button>
                     </div>
                 </div>
@@ -142,30 +208,35 @@
         <div class="bottom-sheet" id="bottom-sheet">
             <div class="m-6">
                 <div class="flex justify-center">
-                    <div class="m-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="blue" class="h-10 w-10">
+                    <div class="m-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="blue" class="h-10 w-10">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
                         </svg>
                     </div>
-                    <div class="m-2 my-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="h-6 w-6">
+                    <div class="m-2 my-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                     </div>
-                    <div class="m-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="blue" class="h-10 w-10">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15  10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    <div class="m-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="blue" class="h-10 w-10">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15  10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                         </svg>
                     </div>
                 </div>
-                <h4 class="text-lg font-semibold flex justify-center text-center">Please turn on camera and location access<br> for better functionality.</h4>
+                <h4 class="text-lg font-semibold flex justify-center text-center">Please turn on camera and location
+                    access<br> for better functionality.</h4>
                 <div class="px-7">
-                    <button id="close-bottom-sheet" class="mt-4 w-full bg-indigo-600 text-white px- 4 py-2 rounded">Proceed</button>
+                    <!-- <button id="close-bottom-sheet" class="mt-4 w-full bg-indigo-600 text-white px- 4 py-2 rounded">Proceed</button> -->
+                    <button id="close-bottom-sheet" class="mt-5 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                        <span class="relative z-10 "> Proceed </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -183,8 +254,8 @@
                         d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
                 </svg>
             </div>
-            <div class="m-2 my-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="h-6 w-6">
+            <div class="m-2 my-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
             </div>
@@ -196,9 +267,13 @@
                 </svg>
             </div>
         </div>
-        <h4 class="text-lg font-semibold flex justify-center text-center">Please turn on camera and location access<br> for better functionality.</h4>
+        <h4 class="text-lg font-semibold flex justify-center text-center">Please turn on camera and location access<br>
+            for better functionality.</h4>
         <div class="px-7">
-            <button id="close-dialog" class="mt-4 w-full bg-indigo-600 text-white px-4 py-2 rounded">Proceed</button>
+            <!-- <button id="close-dialog" class="mt-4 w-full bg-indigo-600 text-white px-4 py-2 rounded">Proceed</button> -->
+            <button id="close-dialog" class="mt-5 swipe-button w-full rounded-md my-2 font-bold text-sm ">
+                <span class="relative z-10 "> Proceed </span>
+            </button>
         </div>
     </div>
 
@@ -211,8 +286,11 @@
 
         continuebutton.addEventListener('click', () => {
             if (window.innerWidth < 768) { // Mobile devices
-                overlay.classList.add('show');
-                bottomSheet.classList.add('show');
+                setTimeout(function () {
+                    overlay.classList.add('show');
+                    bottomSheet.classList.add('show');
+                }, 500);
+
             } else { // Medium devices and above
                 overlay.classList.add('show');
                 dialog.classList.add('show');
@@ -221,8 +299,11 @@
 
         continuebutton1.addEventListener('click', () => {
             if (window.innerWidth < 768) { // Mobile devices
-                overlay.classList.add('show');
-                bottomSheet.classList.add('show');
+
+                setTimeout(function () {
+                    overlay.classList.add('show');
+                    bottomSheet.classList.add('show');
+                }, 500);
             } else { // Medium devices and above
                 overlay.classList.add('show');
                 dialog.classList.add('show');
@@ -273,6 +354,11 @@
             if (!button.contains(event.target) && !dropdownMenu.contains(event.target)) {
                 dropdownMenu.classList.remove('show');
             }
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const formContainer = document.getElementById("form-container");
+            formContainer.classList.remove("translate-y-full");
+            formContainer.classList.add("translate-y-0");
         });
     </script>
 
