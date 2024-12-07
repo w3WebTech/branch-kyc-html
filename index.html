@@ -148,6 +148,45 @@
             display: block;
             /* Show the menu when the class 'show' is added */
         }
+        .slide {
+    opacity: 0;
+    display: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+    display: block;
+}
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
     </style>
 </head>
 
@@ -190,7 +229,7 @@
             <div
                 class="md:mx-auto md:mt-10 md:bg-white md:rounded-xl md:shadow-lg overflow-hidden sm:w-full md:w-1/2 md:p-6">
                 <div class="space-y-6">
-                    <div class="transition-transform duration-500 transform translate-y-full my-10" id="form-container">
+                    <div class="" id="form-container">
                         <h2 class="text-2xl font-semibold text-gray-900">Enter Your Mobile Number</h2>
 
 
@@ -407,9 +446,12 @@
             resendButton.disabled = true; // Disable resend button
         }
         document.addEventListener("DOMContentLoaded", function () {
-            const formContainer = document.getElementById("form-container");
-            formContainer.classList.remove("translate-y-full");
-            formContainer.classList.add("translate-y-0");
+            // const formContainer = document.getElementById("form-container");
+            // formContainer.classList.remove("translate-y-full");
+            // formContainer.classList.add("translate-y-0");
+            const formContainer= document.getElementById('form-container');
+            formContainer.classList.add('active', 'fade-in');
+    // startTimer(58, document.querySelector('#timer'));
         });
 
         function formatTime(seconds) {
