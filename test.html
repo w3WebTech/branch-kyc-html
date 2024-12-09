@@ -3,33 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
-    <title>Button Animation Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Question Card</title>
     <style>
-        /* Custom styles for the button animation */
-        .bg-animation {
-            position: absolute; /* Correct positioning for the background span */
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0; /* Initially set width to 0 */
-            z-index: 0; /* Ensure the background is behind the text */
-            background-color: #6b46c1; /* The background color to animate */
-            opacity: 0.9;
-            transition: width 0.3s ease-out; /* Smooth transition for width */
-        }
-        .button-text {
-            position: relative; /* Ensure the text stays above the background */
-            z-index: 1; /* Make sure the text is above the background */
+        /* Custom styles for the question card */
+        .question-card {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
-<body class="flex items-center justify-center h-screen bg-gray-100">
-    <div>
-        <button class="group relative inline-block overflow-hidden rounded border-4 border-double border-purple-500 px-8 py-3 font-medium text-purple-600">
-            <span class="bg-animation group-hover:w-full"></span> <!-- Animated background span -->
-            <span class="relative button-text group-hover:text-white">Button Text</span> <!-- Text span -->
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <div class="relative">
+        <button id="toggleButton" class="bg-black text-white p-2 rounded-md">
+            <i id="icon" class="ri-question-mark"></i>
         </button>
+        <div id="questionCard" class="question-card absolute bottom-full right-0 mb-2 w-72 bg-white shadow-lg rounded-md hidden">
+            <div class="p-4">
+                <div class="drawer">
+                    <div class="drawer-side">
+                        <ul class="menu p-4">
+                            <li class="menu-item">
+                                <div class="text-sm text-gray-600 font-bold py-3">GETTING STARTED</div>
+                                <hr />
+                                <ul class="menu-items text-sm">
+                                    <li class="hover:bg-gray-200 rounded-md py-2">
+                                        <div class="text-gray-600 flex items-center">
+                                            <i class="ri-question-mark text-gray-500 mr-2"></i> Help center
+                                        </div>
+                                    </li>
+                                    <li class="hover:bg-gray-200 rounded-md py-2">
+                                        <div class="text-gray-600 flex items-center">
+                                            <i class="ri-message-2-line text-gray-500 mr-2"></i> Support chat
+                                        </div>
+                                    </li>
+                                    <li class="hover:bg-gray-200 rounded-md py-2">
+                                        <div class="text-gray-600 flex items-center">
+                                            <i class="ri-lightbulb-flash-line text-gray-500 mr-2"></i> Submit feedback / Request feature
+                                        </div>
+                                    </li>
+                                    <li class="hover:bg-gray-200 rounded-md py-2">
+                                        <div class="text-gray-600 flex items-center">
+                                            <i class="ri-group-line text-gray-500 mr-2"></i> Hire a Uizard Expert <span class="text-blue-600">- $100 off</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <div class="text-sm text-gray-600 font-bold py-3">GENERAL</div>
+                                <hr />
+                                <ul class="menu-items text-sm">
+                                    <li class="hover:bg-gray-200 rounded-md py-2 flex items-center">
+                                        <div class="px-3">
+                                            <span class="inline-block w-2 h-2 bg-red-500 rounded-full"></span>
+                                        </div>
+                                        <div class="py-2">What's new</div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        const toggleButton = document.getElementById('toggleButton');
+        const questionCard = document.getElementById('questionCard');
+        const icon = document.getElementById('icon');
+
+        toggleButton.addEventListener('click', () => {
+            questionCard.classList.toggle('hidden');
+            icon.classList.toggle('ri-question-mark');
+            icon.classList.toggle('ri-arrow-down-s-line');
+        });
+    </script>
+
+    <!-- Include Remix Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
 </body>
 </html>
